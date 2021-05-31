@@ -34,6 +34,7 @@ SOFTWARE.
 #define NLOHMANN_JSON_VERSION_MINOR 9
 #define NLOHMANN_JSON_VERSION_PATCH 1
 
+#include "boost/container/small_vector.hpp"
 #include <algorithm> // all_of, find, for_each
 #include <cstddef> // nullptr_t, ptrdiff_t, size_t
 #include <functional> // hash, less
@@ -7302,7 +7303,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     */
     static std::vector<uint8_t> to_msgpack(const basic_json& j)
     {
-        std::vector<uint8_t> result;
+        boost::container::small_vector<uint8_t, 10> result;
         to_msgpack(j, result);
         return result;
     }
@@ -7407,7 +7408,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
                                           const bool use_size = false,
                                           const bool use_type = false)
     {
-        std::vector<uint8_t> result;
+        boost::container::small_vector<uint8_t, 10> result;
         to_ubjson(j, result, use_size, use_type);
         return result;
     }
@@ -7483,7 +7484,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     */
     static std::vector<uint8_t> to_bson(const basic_json& j)
     {
-        std::vector<uint8_t> result;
+        boost::container::small_vector<uint8_t, 10> result;
         to_bson(j, result);
         return result;
     }

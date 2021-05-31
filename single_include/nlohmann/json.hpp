@@ -34,6 +34,8 @@ SOFTWARE.
 #define NLOHMANN_JSON_VERSION_MINOR 9
 #define NLOHMANN_JSON_VERSION_PATCH 1
 
+#include "boost/container/small_vector.hpp"
+#include "boost/container/stable_vector.hpp"
 #include <algorithm> // all_of, find, for_each
 #include <cstddef> // nullptr_t, ptrdiff_t, size_t
 #include <functional> // hash, less
@@ -6323,9 +6325,9 @@ class json_sax_dom_callback_parser
     /// stack to model hierarchy of values
     std::vector<BasicJsonType*> ref_stack {};
     /// stack to manage which values to keep
-    std::vector<bool> keep_stack {};
+    boost::container::stable_vector<bool> keep_stack {};
     /// stack to manage which object keys to keep
-    std::vector<bool> key_keep_stack {};
+    boost::container::stable_vector<bool> key_keep_stack {};
     /// helper to hold the reference for the next object element
     BasicJsonType* object_element = nullptr;
     /// whether a syntax error occurred
@@ -8026,7 +8028,7 @@ scan_number_done:
     position_t position {};
 
     /// raw input token string (for error messages)
-    std::vector<char_type> token_string {};
+    boost::container::stable_vector<char_type> token_string {};
 
     /// buffer for variable-length tokens (numbers, strings)
     string_t token_buffer {};
@@ -10381,7 +10383,7 @@ class binary_reader
         }
 
         // get number string
-        std::vector<char> number_vector;
+        boost::container::stable_vector<char> number_vector;
         for (std::size_t i = 0; i < size; ++i)
         {
             get();
@@ -10829,7 +10831,7 @@ class parser
     {
         // stack to remember the hierarchy of structured values we are parsing
         // true = array; false = object
-        std::vector<bool> states;
+        boost::container::small_vector<bool, 10> states;
         // value to avoid a goto (see comment where set to true)
         bool skip_to_state_evaluation = false;
 
@@ -18152,7 +18154,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
         void destroy(value_t t) noexcept
         {
             // flatten the current json_value to a heap-allocated stack
-            std::vector<basic_json> stack;
+            boost::container::small_vector<basic_json, 10> stack;
 
             // move the top-level items to stack
             if (t == value_t::array)
