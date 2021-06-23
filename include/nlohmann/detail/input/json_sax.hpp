@@ -7,6 +7,7 @@
 
 #include <nlohmann/detail/exceptions.hpp>
 #include <nlohmann/detail/macro_scope.hpp>
+#include "boost/container/small_vector.hpp"
 
 namespace nlohmann
 {
@@ -616,7 +617,7 @@ class json_sax_dom_callback_parser
     /// stack to model hierarchy of values
     std::vector<BasicJsonType*> ref_stack {};
     /// stack to manage which values to keep
-    std::vector<bool> keep_stack {};
+    boost::container::small_vector<bool,10> keep_stack {};
     /// stack to manage which object keys to keep
     std::vector<bool> key_keep_stack {};
     /// helper to hold the reference for the next object element

@@ -13,6 +13,7 @@
 #include <nlohmann/detail/input/input_adapters.hpp>
 #include <nlohmann/detail/input/position_t.hpp>
 #include <nlohmann/detail/macro_scope.hpp>
+#include "boost/container/small_vector.hpp"
 
 namespace nlohmann
 {
@@ -1603,7 +1604,7 @@ scan_number_done:
     position_t position {};
 
     /// raw input token string (for error messages)
-    std::vector<char_type> token_string {};
+    boost::container::small_vector<char_type,10> token_string {};
 
     /// buffer for variable-length tokens (numbers, strings)
     string_t token_buffer {};
